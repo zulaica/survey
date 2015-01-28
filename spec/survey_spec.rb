@@ -1,9 +1,11 @@
 require('spec_helper')
 
-describe('Survey') do
-  it("has many questions") do
-    question = Question.create({:inquiry => "What's the deal with that?"})
-    survey = Survey.create({:questions => [question]})
-    expect(survey.questions()).to(eq([question]))
+describe(Survey) do
+  it { should have_many(:questions) }
+
+  it("capitalizes the first letter of the title") do
+    survey = Survey.create({:title => "SURVEY TITLE"})
+    expect(survey.title()).to(eq("Survey title"))
   end
+
 end
