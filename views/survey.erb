@@ -1,0 +1,51 @@
+<h2><%= @survey.title() %></h2>
+
+<% if @questions.any?() %>
+<ul>
+  <% @questions.each() do |question| %>
+  <li><a href="/questions/<%= question.id() %>"><%= question.inquiry() %></a></li>
+  <% end %>
+</ul>
+<% else %>
+<p>No questions available</p>
+<% end %>
+
+<section>
+<form action="/surveys/<%= @survey.id() %>" method="post">
+  <fieldset>
+    <legend>Add a question:</legend>
+    <label>Question</label>
+    <input name="survey_id" hidden value="<%= @survey.id() %>" />
+    <input name="inquiry" />
+    <button type="submit">Add your question</button>
+  </fieldset>
+</form>
+</section>
+
+<section>
+<form action="/surveys/<%= @survey.id() %>" method="post">
+  <input name="_method" value="patch" hidden>
+  <fieldset>
+    <legend>Edit Survey Title:</legend>
+    <label>Edit Title</label>
+    <input name="survey_id" hidden value="<%= @survey.id() %>" />
+    <input name="survey_title" value="<%= @survey.title() %>"/>
+    <!--
+    the 'At'survey.titleBRACKETS autopopulates the form html
+    -->
+    <button type="submit">Edit</button>
+  </fieldset>
+</form>
+</section>
+
+<section>
+<form action="/surveys/<%= @survey.id() %>" method="post">
+  <input name="_method" value="delete" hidden>
+  <fieldset>
+    <legend>Delete this survey. (This can't be undone!)</legend>
+    <button type="submit">Delete</button>
+  </fieldset>
+</form>
+</section>
+
+<a href="/">Go back</a>
