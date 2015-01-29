@@ -16,10 +16,7 @@ end
 
 get('/surveys/:id') do
   @survey = Survey.find(params['id'].to_i())
-  #Get 'id' is already in Active Record database for survey
   @questions = @survey.questions()
-  #ActiveRecord already knows the relationship, @survey.questions() asks for
-  #all questions with the same survey iD.
   erb(:survey)
 end
 
@@ -35,7 +32,6 @@ end
 patch('/surveys/:id') do
   @survey = Survey.find(params['id'].to_i())
   survey_id =  params.fetch("survey_id")
-  #Same view, so we dont ned to fetch from database, just from the views page.
   survey_title = params.fetch("survey_title")
   @survey.update({ :title => survey_title })
   @questions = @survey.questions()
@@ -46,8 +42,6 @@ delete('/surveys/:id') do
   @survey = Survey.find(params['id'].to_i())
   @survey.delete()
   @survey.questions.delete()
-  #You must delete questions associated survey_id, otherwise they just sit in database
-  #without an id. Just deleting survey_id does not automatically clear questions in DB.
   @surveys = Survey.all()
   erb(:index)
 end
@@ -69,6 +63,4 @@ delete('/questions/:id') do
   survey_id = @question.survey_id()
   @question.delete()
   redirect "/surveys/#{survey_id}"
-
-  #String interpolation needed for the redirect, need double quotes ""
 end
